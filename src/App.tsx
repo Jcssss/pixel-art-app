@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState, useEffect} from 'react';
+import Canvas from './canvas/Canvas';
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [pixels, setPixels] = useState([['']]);
+    const defaultColour: string = '#AAFFFF';
+
+    useEffect(() => {
+        resetPixels(5, 5);
+    }, []);
+
+    // resets all pixels on the canvas to the default colour
+    const resetPixels = (width: number, height: number): void => {
+        let temp: string[][] = [];
+
+        for (let i: number = 0; i < height; i++) {
+            temp.push([]);
+            for (let j: number = 0; j < height; j++) {
+                temp[i].push(defaultColour);
+            }
+        }
+
+        setPixels(temp);
+    } // resetPixels
+
+    return (
+        <div className='App'>
+            <Canvas pixels={pixels}/>
+        </div>
+    );
 }
 
 export default App;
