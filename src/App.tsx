@@ -1,9 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import Canvas from './canvas/Canvas';
+import { ChromePicker } from 'react-color';
 import './App.css';
 
 function App() {
     const [pixels, setPixels] = useState([['']]);
+    const [selectedColor, setSelectedColor] = useState('#FFFFFF')
     const defaultColour: string = '#AAFFFF';
 
     useEffect(() => {
@@ -16,7 +18,7 @@ function App() {
 
         for (let i: number = 0; i < height; i++) {
             temp.push([]);
-            for (let j: number = 0; j < height; j++) {
+            for (let j: number = 0; j < width; j++) {
                 temp[i].push(defaultColour);
             }
         }
@@ -24,9 +26,35 @@ function App() {
         setPixels(temp);
     } // resetPixels
 
+    // changes the selected color using the color picker
+    const changeSelectedColor = (color: {hex: string}): void => {
+        setSelectedColor(color.hex);
+    } // changeSelectedColor
+
+    // colors a pixel using the active color
+    const colorPixel = (color: string, location: [number, number]): void => {
+        let temp: string[][] = [];
+
+        pixels.forEach((row) => {
+            temp.push([...row])
+        });
+
+        temp[location[0]][location[1]] = color;
+        setPixels(temp);
+    } // colorPixel
+
     return (
         <div className='App'>
-            <Canvas pixels={pixels}/>
+            <ChromePicker
+                color={selectedColor}
+                onChange={changeSelectedColor}
+                disableAlpha={true}
+            />
+            <Canvas 
+                pixels={pixels}
+                onPixelClick={colorPixel}
+                selectedColor={selectedColor}
+            />
         </div>
     );
 }

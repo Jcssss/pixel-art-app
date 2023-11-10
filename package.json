@@ -45,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-color": "^3.0.10",
     "concurrently": "^8.2.2",
     "electron": "^27.0.4",
     "electron-is-dev": "^2.0.0",

@@ -1,15 +1,22 @@
-import React from 'react';
 import Pixel from './Pixel';
 
 type propTypes = {
-    pixels: string[];
+    pixels: string[],
+    onPixelClick: Function,
+    selectedColor: string,
+    row: number,
 };
 
-function Row({ pixels }: propTypes) {
+function Row({ pixels, onPixelClick, selectedColor, row }: propTypes) {
     return (
         <div className='canvas-row'>
-            {pixels.map((color: string): JSX.Element => (
-                <Pixel color={color} />
+            {pixels.map((color: string, j: number): JSX.Element => (
+                <Pixel 
+                    location={[row, j]}
+                    color={color} 
+                    onPixelClick={onPixelClick}
+                    selectedColor={selectedColor}
+                />
             ))}
         </div>
     );
