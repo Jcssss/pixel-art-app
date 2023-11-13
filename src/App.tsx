@@ -4,24 +4,27 @@ import { ChromePicker } from 'react-color';
 import './App.css';
 
 function App() {
-    const [pixels, setPixels] = useState([['']]);
-    const [selectedColor, setSelectedColor] = useState('#FFFFFF')
+    const [pixels, setPixels] = useState(['']);
+    const [selectedColor, setSelectedColor] = useState('#FFFFFF');
+    const [dimensions, setDimensions] = useState({height: 5, width: 5})
     const defaultColour: string = '#AAFFFF';
 
     useEffect(() => {
-        resetPixels(5, 5);
+        resetPixels(25, 25);
     }, []);
 
     // resets all pixels on the canvas to the default colour
     const resetPixels = (width: number, height: number): void => {
-        let temp: string[][] = [];
+        let temp: string[] = [];
 
-        for (let i: number = 0; i < height; i++) {
-            temp.push([]);
-            for (let j: number = 0; j < width; j++) {
-                temp[i].push(defaultColour);
-            }
+        for (let i: number = 0; i < height * width; i++) {
+            temp.push(defaultColour);
         }
+
+        setDimensions({
+            height: height,
+            width: width,
+        });
 
         setPixels(temp);
     } // resetPixels
@@ -32,14 +35,14 @@ function App() {
     } // changeSelectedColor
 
     // colors a pixel using the active color
-    const colorPixel = (color: string, location: [number, number]): void => {
-        let temp: string[][] = [];
+    const colorPixel = (color: string, index: number): void => {
+        let temp: string[] = [];
 
-        pixels.forEach((row) => {
-            temp.push([...row])
+        pixels.forEach((pixel) => {
+            temp.push(pixel)
         });
 
-        temp[location[0]][location[1]] = color;
+        temp[index] = color;
         setPixels(temp);
     } // colorPixel
 
@@ -50,11 +53,14 @@ function App() {
                 onChange={changeSelectedColor}
                 disableAlpha={true}
             />
-            <Canvas 
-                pixels={pixels}
-                onPixelClick={colorPixel}
-                selectedColor={selectedColor}
-            />
+            <div className='canvas-container'>
+                <Canvas 
+                    dimensions={dimensions}
+                    pixels={pixels}
+                    onPixelClick={colorPixel}
+                    selectedColor={selectedColor}
+                />
+            </div>
         </div>
     );
 }

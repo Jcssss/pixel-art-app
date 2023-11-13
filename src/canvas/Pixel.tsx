@@ -4,10 +4,11 @@ type propTypes = {
     color: string,
     onPixelClick: Function,
     selectedColor: string,
-    location: [number, number],
+    index: number,
+    canvasWidth: number,
 };
 
-function Pixel({ color, onPixelClick, selectedColor, location }: propTypes) {
+function Pixel({ color, onPixelClick, selectedColor, index, canvasWidth }: propTypes) {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
@@ -15,11 +16,10 @@ function Pixel({ color, onPixelClick, selectedColor, location }: propTypes) {
             className='canvas-pixel'
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            onClick={() => onPixelClick(selectedColor, location)}
+            onClick={() => onPixelClick(selectedColor, index)}
             style={{
                 backgroundColor: (isHovered)? selectedColor : color,
-                height: '50px',
-                width: '50px',
+                width: `${100 / canvasWidth}%`,
             }}>
         </div>
     );
