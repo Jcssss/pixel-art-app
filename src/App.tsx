@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import Canvas from './canvas/Canvas';
-import { ChromePicker } from 'react-color';
+import ColorPalette from './color-palette/ColorPalette';
 import './App.css';
 
 function App() {
@@ -30,8 +30,8 @@ function App() {
     } // resetPixels
 
     // changes the selected color using the color picker
-    const changeSelectedColor = (color: {hex: string}): void => {
-        setSelectedColor(color.hex);
+    const changeSelectedColor = (colorHex: string): void => {
+        setSelectedColor(colorHex);
     } // changeSelectedColor
 
     // colors a pixel using the active color
@@ -48,12 +48,11 @@ function App() {
 
     return (
         <div className='App'>
-            <ChromePicker
-                color={selectedColor}
-                onChange={changeSelectedColor}
-                disableAlpha={true}
-            />
             <div className='canvas-container'>
+                <ColorPalette
+                    selectedColor={selectedColor}
+                    changeSelectedColor={changeSelectedColor}
+                />
                 <Canvas 
                     dimensions={dimensions}
                     pixels={pixels}

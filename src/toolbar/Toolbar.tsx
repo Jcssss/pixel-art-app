@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Menu() {
+function Toolbar() {
     return (
         <div>
             
@@ -8,4 +8,4 @@ function Menu() {
     );
 }
 
-export default Menu;
+export default Toolbar;

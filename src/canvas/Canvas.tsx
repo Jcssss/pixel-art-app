@@ -18,7 +18,7 @@ function Canvas({ dimensions, pixels, onPixelClick, selectedColor }: propTypes) 
         position: rel,
         top: '0px',
         left: '0px',
-        scale: '1',
+        scale: `1`,
     }
 
     const drawPixels = (): JSX.Element[] => {
