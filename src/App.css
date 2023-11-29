@@ -2,6 +2,10 @@
     width: 100%;
 }
 
+:root {
+    --menu-height: 20px;
+}
+
 .canvas {
     display: flex;
     flex-direction: row;
@@ -27,14 +31,14 @@
 .palette__container {
     z-index: 100;
     position: absolute;
-    top: 0px;
+    top: var(--menu-height);
     left: 0px;
     display: flex;
     flex-direction: row;
 }
 
 .palette__menu {
-    height: 100vh;
+    height: calc(100vh - var(--menu-height));
     width: 30px;
     background-color: grey;
     display: flex;
@@ -47,4 +51,28 @@
     width: 50%;
     border: 2px solid black;
     border-radius: 5px;
+}
+
+.menu__frame {
+    position: fixed;
+    z-index: 101;
+    top: 0px;
+    width: 100%;
+    height: var(--menu-height);
+    background-color: yellow;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.menu__frame > div {
+    padding: 2px;
+}
+
+ul {
+    list-style: none;
+    position: absolute;
+    background-color: lightcoral;
+    margin: 0;
+    padding: 0;
 }

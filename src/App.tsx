@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import Canvas from './canvas/Canvas';
 import ColorPalette from './color-palette/ColorPalette';
 import './App.css';
+import MenuFrame from './menu/MenuFrame'
 
 function App() {
     const [pixels, setPixels] = useState(['']);
@@ -49,6 +50,7 @@ function App() {
     return (
         <div className='App'>
             <div className='canvas-container'>
+                <MenuFrame/>
                 <ColorPalette
                     selectedColor={selectedColor}
                     changeSelectedColor={changeSelectedColor}
