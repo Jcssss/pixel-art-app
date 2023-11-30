@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 
-function MenuFrame() {
+type propTypes = {
+    clear: Function,
+}
+
+function MenuFrame({clear}: propTypes) {
     const [activeMenu, setActiveMenu] = useState('None');
 
     const toggleMenu = (labelName: string): void => {
@@ -22,7 +26,7 @@ function MenuFrame() {
             <div>
                 <label onClick={() => toggleMenu('Edit')}> Edit </label>
                 <ul style={{display: `${(activeMenu == 'Edit')? 'block' : 'none'}`}}>
-                    <li>Item 1</li>
+                    <li onClick={() => clear()}>Clear Canvas</li>
                     <li>Item 2</li>
                     <li>Item 3</li>
                 </ul>

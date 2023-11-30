@@ -50,7 +50,7 @@ function App() {
     return (
         <div className='App'>
             <div className='canvas-container'>
-                <MenuFrame/>
+                <MenuFrame clear={() => resetPixels(dimensions.width, dimensions.height)}/>
                 <ColorPalette
                     selectedColor={selectedColor}
                     changeSelectedColor={changeSelectedColor}

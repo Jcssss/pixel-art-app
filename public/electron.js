@@ -24,6 +24,7 @@ function createWindow() {
     if (isDev) {
         win.webContents.openDevTools({ mode: 'detach' });
     }
+    win.setMenu(null);
 }
 
 // This method will be called when Electron has finished
