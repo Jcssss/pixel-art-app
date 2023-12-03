@@ -30,6 +30,11 @@ function App() {
         setPixels(temp);
     } // resetPixels
 
+    const menuFunctions = {
+        resetCanvas: () => resetPixels(dimensions.height, dimensions.width),
+
+    }
+
     // changes the selected color using the color picker
     const changeSelectedColor = (colorHex: string): void => {
         setSelectedColor(colorHex);
@@ -50,7 +55,7 @@ function App() {
     return (
         <div className='App'>
             <div className='canvas-container'>
-                <MenuFrame clear={() => resetPixels(dimensions.width, dimensions.height)}/>
+                <MenuFrame {...menuFunctions}/>
                 <ColorPalette
                     selectedColor={selectedColor}
                     changeSelectedColor={changeSelectedColor}

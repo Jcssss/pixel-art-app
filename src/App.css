@@ -74,14 +74,20 @@
 
 ul {
     border-radius: 10px;
+    cursor: pointer;
     list-style: none;
     position: absolute;
     margin: 0;
-    padding: 4px 20px 4px 20px;
     display: block;
     background-color: rgb(247, 247, 247);
+    overflow: hidden;
+    padding: 0;
 }
 
 li {
-    padding: 4px 0px 4px 0px;
+    padding: 4px 20px 4px 20px;
+}
+
+li:hover {
+    background-color: rgb(180, 180, 180);
 }

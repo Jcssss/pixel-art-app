@@ -1,9 +1,35 @@
 import React from 'react';
 
-function Submenu() {
+type propTypes = {
+    menuName: string,
+    menuItems: {itemName: string, click: Function}[],
+    toggleMenu: Function,
+    activeMenu: string,
+}
+
+function Submenu({menuName, menuItems, toggleMenu, activeMenu}: propTypes) {
+
+    const createMenuItems = (): JSX.Element => {
+        return <ul style={{display: `${(activeMenu == menuName)? 'block' : 'none'}`}}>
+            {
+                menuItems.map((item: {itemName: string, click: Function}): JSX.Element => 
+                    <li onClick={() => item.click()}>
+                        {item.itemName}
+                    </li>
+                )
+            }
+        </ul>
+    }
+
     return (
         <div className='submenu'>
-            <div className='submenu-label'></div>
+            <label 
+                className='submenu__label' 
+                onClick={() => toggleMenu()}
+            >
+                {menuName}
+            </label>
+            {createMenuItems()}
         </div>
     );
 }

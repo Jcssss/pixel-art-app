@@ -1,10 +1,21 @@
 import React, {useState} from 'react';
+import Submenu from './Submenu'
 
 type propTypes = {
-    clear: Function,
+    resetCanvas: Function,
 }
 
-function MenuFrame({clear}: propTypes) {
+type submenuTypes = {
+    itemName: string,
+    click: Function,
+}
+
+type menuTypes = {
+    menuName: string,
+    menuItems: submenuTypes[]
+}
+
+function MenuFrame({resetCanvas}: propTypes) {
     const [activeMenu, setActiveMenu] = useState('None');
 
     const toggleMenu = (labelName: string): void => {
@@ -13,32 +24,54 @@ function MenuFrame({clear}: propTypes) {
         })
     }
 
+    const menu = [
+        {
+            'menuName': 'File',
+            'menuItems': [
+                {
+                    'itemName': 'Quit',
+                    'click': () => window.electronAPI.closeWindow()
+                },
+            ]
+        },
+        {
+            'menuName': 'Edit',
+            'menuItems': [
+                {
+                    'itemName': 'Clear Canvas',
+                    'click': () => resetCanvas()
+                },
+            ]
+        },
+        {
+            'menuName': 'View',
+            'menuItems': [
+                {
+                    'itemName': 'Zoom In',
+                    'click': () => {}
+                },
+                {
+                    'itemName': 'Zoom Out',
+                    'click': () => {}
+                },
+            ]
+        },
+    ]
+
+    const createMenu = (): JSX.Element[] => {
+        return menu.map((submenu: menuTypes): JSX.Element => {
+            return <Submenu 
+                key={submenu.menuName} 
+                {...submenu}
+                toggleMenu={() => toggleMenu(submenu.menuName)}
+                activeMenu={activeMenu}
+            />
+        })
+    }
+
     return (
         <div className='menu__frame'>
-            <div>
-                <label onClick={() => toggleMenu('File')}> File </label>
-                <ul style={{display: `${(activeMenu == 'File')? 'block' : 'none'}`}}>
-                    <li onClick={() => window.electronAPI.closeWindow()}>Quit</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                </ul>
-            </div>
-            <div>
-                <label onClick={() => toggleMenu('Edit')}> Edit </label>
-                <ul style={{display: `${(activeMenu == 'Edit')? 'block' : 'none'}`}}>
-                    <li onClick={() => clear()}>Clear Canvas</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                </ul>
-            </div>    
-            <div>
-                <label onClick={() => toggleMenu('View')}> View </label>
-                <ul style={{display: `${(activeMenu == 'View')? 'block' : 'none'}`}}>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                </ul>
-            </div>
+            {createMenu()}
         </div>
     );
 }
