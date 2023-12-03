@@ -18,7 +18,7 @@ function MenuFrame({clear}: propTypes) {
             <div>
                 <label onClick={() => toggleMenu('File')}> File </label>
                 <ul style={{display: `${(activeMenu == 'File')? 'block' : 'none'}`}}>
-                    <li>Item 1</li>
+                    <li onClick={() => window.electronAPI.closeWindow()}>Quit</li>
                     <li>Item 2</li>
                     <li>Item 3</li>
                 </ul>

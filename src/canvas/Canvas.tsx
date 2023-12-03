@@ -24,6 +24,7 @@ function Canvas({ dimensions, pixels, onPixelClick, selectedColor }: propTypes) 
     const drawPixels = (): JSX.Element[] => {
         return pixels.map((color: string, i: number): JSX.Element => (
             <Pixel
+                key={i}
                 color={color}
                 onPixelClick={onPixelClick}
                 selectedColor={selectedColor}
