@@ -6,5 +6,6 @@ Currently, I'm working on adding the ability to...
 2. Create a custom menu toolbar to undo, redo, and clear the canvas
 
 # Useful Articles and Tutorials
+[Electron IPC Channels](https://www.electronjs.org/docs/latest/tutorial/ipc) - Used to communicate between the app and the electron framework
 
 # Useful Packages and Libraries
