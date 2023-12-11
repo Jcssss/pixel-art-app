@@ -10,3 +10,4 @@ Currently, I'm working on adding the ability to...
 
 # Useful Packages and Libraries
 [Electron IPC Channels](https://www.electronjs.org/docs/latest/tutorial/ipc) - Used to communicate between the app and the electron framework
+[React Color Picker Component](https://casesandberg.github.io/react-color/) - Used as the main color picker for the app, allowing users to pick the color of their brush
