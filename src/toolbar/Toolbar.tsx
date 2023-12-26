@@ -17,9 +17,10 @@ import Tool from './Tool'
 
 type propTypes = {
     setActiveTool: Function,
+    activeTool: string
 }
 
-function Toolbar({setActiveTool}: propTypes) {
+function Toolbar({setActiveTool, activeTool}: propTypes) {
     const tools = [
         {
             name: 'Brush',
@@ -44,6 +45,9 @@ function Toolbar({setActiveTool}: propTypes) {
             {
                 tools.map((tool: {name: string, icon: IconDefinition}): JSX.Element => 
                     <Tool
+                        key={tool.name}
+                        setActiveTool={setActiveTool}
+                        active={activeTool == tool.name}
                         name={tool.name}
                         icon={tool.icon}
                     />

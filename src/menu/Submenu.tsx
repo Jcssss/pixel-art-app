@@ -10,15 +10,27 @@ type propTypes = {
 function Submenu({menuName, menuItems, toggleMenu, activeMenu}: propTypes) {
 
     const createMenuItems = (): JSX.Element => {
-        return <ul style={{display: `${(activeMenu == menuName)? 'block' : 'none'}`}}>
-            {
-                menuItems.map((item: {itemName: string, click: Function}): JSX.Element => 
-                    <li onClick={() => item.click()}>
-                        {item.itemName}
-                    </li>
-                )
-            }
-        </ul>
+        return (
+            <ul 
+                style={{display: `${(activeMenu == menuName)? 'block' : 'none'}`}}
+                className='submenu__list'
+            >
+                {
+                    menuItems.map((item: {itemName: string, click: Function}): JSX.Element => 
+                        <li 
+                            onClick={() => {
+                                item.click()
+                                toggleMenu()
+                            }}
+                            className='submenu__item'
+                            key={item.itemName}
+                        >
+                            {item.itemName}
+                        </li>
+                    )
+                }
+            </ul>
+        )
     }
 
     return (

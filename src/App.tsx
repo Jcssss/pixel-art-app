@@ -57,7 +57,10 @@ function App() {
         <div className='App'>
             <div className='canvas-container'>
                 <MenuFrame {...menuFunctions}/>
-                <Toolbar setActiveTool={setActiveTool}/>
+                <Toolbar 
+                    setActiveTool={setActiveTool}
+                    activeTool={activeTool}
+                />
                 <ColorPalette
                     selectedColor={selectedColor}
                     changeSelectedColor={changeSelectedColor}

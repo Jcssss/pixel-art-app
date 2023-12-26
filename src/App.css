@@ -2,8 +2,14 @@
     width: 100%;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 :root {
     --menu-height: 20px;
+    --toolbar-width: 30px;
+    --palette-width: 30px;
 }
 
 .canvas {
@@ -39,7 +45,7 @@
 
 .palette__menu {
     height: calc(100vh - var(--menu-height));
-    width: 30px;
+    width: var(--palette-width);
     background-color: grey;
     display: flex;
     flex-direction: column;
@@ -55,7 +61,7 @@
 
 .menu__frame {
     position: fixed;
-    z-index: 101;
+    z-index: 200;
     top: 0px;
     width: 100%;
     height: var(--menu-height);
@@ -72,7 +78,7 @@
     height: var(--menu-height);
 }
 
-ul {
+.submenu__list {
     border-radius: 10px;
     cursor: pointer;
     list-style: none;
@@ -84,10 +90,52 @@ ul {
     padding: 0;
 }
 
-li {
+.submenu__item {
     padding: 4px 20px 4px 20px;
 }
 
-li:hover {
+.submenu__item:hover {
     background-color: rgb(180, 180, 180);
 }
+
+.toolbar__frame {
+    height: calc(100vh - var(--menu-height));
+    top: var(--menu-height);
+    width: var(--toolbar-width);
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    right: 0px;
+}
+
+.toolbar__tool{
+    width: var(--toolbar-width);
+    height: var(--toolbar-width);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.toolbar__tool.selected {
+    background-color: rgb(194, 194, 194);
+}
+
+.toolbar__tool:hover{
+    background-color: white;
+}
+
+.toolbar__tool-label{
+    z-index: 50;
+    position: absolute;
+    right: -100%;
+    display: none;
+    transition: right 2s;
+}
+
+.toolbar__tool-label.hovered{
+    right: 130%;
+    display: block;
+}
+
