@@ -3,11 +3,13 @@ import Canvas from './canvas/Canvas';
 import ColorPalette from './color-palette/ColorPalette';
 import './App.css';
 import MenuFrame from './menu/MenuFrame'
+import Toolbar from './toolbar/Toolbar'
 
 function App() {
     const [pixels, setPixels] = useState(['']);
     const [selectedColor, setSelectedColor] = useState('#FFFFFF');
-    const [dimensions, setDimensions] = useState({height: 5, width: 5})
+    const [dimensions, setDimensions] = useState({height: 5, width: 5});
+    const [activeTool, setActiveTool] = useState('None');
     const defaultColour: string = '#AAFFFF';
 
     useEffect(() => {
@@ -32,7 +34,6 @@ function App() {
 
     const menuFunctions = {
         resetCanvas: () => resetPixels(dimensions.height, dimensions.width),
-
     }
 
     // changes the selected color using the color picker
@@ -56,6 +57,7 @@ function App() {
         <div className='App'>
             <div className='canvas-container'>
                 <MenuFrame {...menuFunctions}/>
+                <Toolbar setActiveTool={setActiveTool}/>
                 <ColorPalette
                     selectedColor={selectedColor}
                     changeSelectedColor={changeSelectedColor}
