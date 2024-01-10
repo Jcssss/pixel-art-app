@@ -13,7 +13,7 @@ function App() {
     const defaultColour: string = '#AAFFFF';
 
     useEffect(() => {
-        resetPixels(25, 25);
+        resetPixels(10, 10);
     }, []);
 
     // resets all pixels on the canvas to the default colour
