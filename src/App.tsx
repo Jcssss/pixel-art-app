@@ -2,18 +2,20 @@ import {useState, useEffect} from 'react';
 import Canvas from './canvas/Canvas';
 import ColorPalette from './color-palette/ColorPalette';
 import './App.css';
-import MenuFrame from './menu/MenuFrame'
-import Toolbar from './toolbar/Toolbar'
+import MenuFrame from './menu/MenuFrame';
+import Toolbar from './toolbar/Toolbar';
+import useHistory from './hooks/useHistory';
 
 function App() {
-    const [pixels, setPixels] = useState(['']);
+    const [pixels, pixelsHistory, setPixels, nextPixels, prevPixels] = useHistory([''], 10);
     const [selectedColor, setSelectedColor] = useState('#FFFFFF');
+    const [colorHistory, setColorHistory] = useState<string[]>([]);
     const [dimensions, setDimensions] = useState({height: 5, width: 5});
     const [activeTool, setActiveTool] = useState('None');
     const defaultColour: string = '#AAFFFF';
 
     useEffect(() => {
-        resetPixels(10, 10);
+        resetPixels(2, 2);
     }, []);
 
     // resets all pixels on the canvas to the default colour
@@ -34,6 +36,8 @@ function App() {
 
     const menuFunctions = {
         resetCanvas: () => resetPixels(dimensions.height, dimensions.width),
+        undo: () => prevPixels(),
+        redo: () => nextPixels(),
     }
 
     // changes the selected color using the color picker
@@ -64,12 +68,14 @@ function App() {
                 <ColorPalette
                     selectedColor={selectedColor}
                     changeSelectedColor={changeSelectedColor}
+                    colorHistory={colorHistory}
                 />
                 <Canvas 
                     dimensions={dimensions}
                     pixels={pixels}
-                    onPixelClick={colorPixel}
+                    setPixel={colorPixel}
                     selectedColor={selectedColor}
+                    setColorHistory={setColorHistory}
                 />
             </div>
         </div>
