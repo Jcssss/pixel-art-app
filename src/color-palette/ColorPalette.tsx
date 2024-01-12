@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { ChromePicker } from 'react-color';
+import useCloseClick from '../hooks/useCloseClick';
 
 type propTypes = {
     selectedColor: string,
@@ -17,25 +18,7 @@ function ColorPalette({
     // Tracks whether the color picker should be visible
     const [pickerActive, setPickerActive] = useState(false);
 
-    // Checks for a click outside of the color picker and closes the 
-    // picker if necessary
-    const handleClick = (e: Event) => {
-        if (e.target != document.getElementsByClassName('palette__picker')[0]
-         && e.target != document.getElementsByClassName('palette__main-color')[0]){
-            setPickerActive(false);
-        }
-    } // handleClick
-
-    // Adds the click event handler
-    useEffect(() => {
-        if (pickerActive) {
-            document.addEventListener('click', handleClick);
-
-            return (): void => {
-                document.removeEventListener('click', handleClick);
-            };
-        }
-    }, [pickerActive])
+    useCloseClick(false, pickerActive, setPickerActive, ['palette__picker', 'palette__main-color'])
 
     // Toggles the state of the picker between true and false
     const togglePickerState = () => {

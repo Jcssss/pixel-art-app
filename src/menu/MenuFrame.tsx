@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import Submenu from './Submenu'
+import Submenu from './Submenu';
+import useCloseClick from '../hooks/useCloseClick';
 
 type propTypes = {
     resetCanvas: Function,
@@ -23,33 +24,14 @@ function MenuFrame({resetCanvas, undo, redo}: propTypes) {
     // Tracks the active submenu
     const [activeMenu, setActiveMenu] = useState('None');
 
+    useCloseClick('None', activeMenu, setActiveMenu, ['submenu__label', 'submenu__item'])
+
     // Toggles the current submenu
     const toggleMenu = (labelName: string): void => {
         setActiveMenu((oldState: string): string => {
             return (oldState === labelName)? 'None' : labelName
         })
     } // toggleMenu
-
-    // Checks if a click is outside of the submenu and closes the submenu
-    // accordingly
-    const handleClick = (e: Event) => {
-        let element = e.target as HTMLElement
-        if (!Array.from(document.getElementsByClassName('submenu__label')).includes(element)
-         && !Array.from(document.getElementsByClassName('submenu__item')).includes(element)){
-            setActiveMenu('None');
-        }
-    } // handleClick
-
-    // Sets up the click event handlers
-    useEffect(() => {
-        if (activeMenu != 'None') {
-            document.addEventListener('click', handleClick);
-
-            return (): void => {
-                document.removeEventListener('click', handleClick);
-            };
-        }
-    }, [activeMenu])
 
     // Stores the list of menu's and submenu's
     const menu = [
