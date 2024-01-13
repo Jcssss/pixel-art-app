@@ -5,6 +5,7 @@ import './App.css';
 import MenuFrame from './menu/MenuFrame';
 import Toolbar from './toolbar/Toolbar';
 import useHistory from './hooks/useHistory';
+import html2canvas from "html2canvas";
 
 function App() {
     const [pixels, pixelsHistory, setPixels, nextPixels, prevPixels] = useHistory([''], 10);
@@ -34,10 +35,32 @@ function App() {
         setPixels(temp);
     } // resetPixels
 
+    const downloadImage = (url: string, fileName: string) => {
+        const fakeLink = window.document.createElement('a');
+        fakeLink.style.display = 'none';
+        fakeLink.download = fileName;
+        
+        fakeLink.href = url;
+        
+        document.body.appendChild(fakeLink);
+        fakeLink.click();
+        document.body.removeChild(fakeLink);
+        
+        fakeLink.remove();
+    };
+
     const menuFunctions = {
         resetCanvas: () => resetPixels(dimensions.height, dimensions.width),
         undo: () => prevPixels(),
         redo: () => nextPixels(),
+        exportImage: (imageFileName: string) => {
+            let element = document.getElementsByClassName('canvas')[0] as HTMLElement
+            html2canvas(element).then((canvas) => {
+                return canvas.toDataURL("image/png", 1.0);
+            }).then((image) => {
+                downloadImage(image, imageFileName);
+            })
+        }
     }
 
     // changes the selected color using the color picker

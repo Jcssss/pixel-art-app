@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
 
+// A custom hook that creates functionality for closing elements, 
+// primarily windows and menus, when the user clicks outside of 
+// the element
 const useCloseClick = <T,>(
     closeValue: T,
     moniterVar: T,

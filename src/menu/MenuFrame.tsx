@@ -6,6 +6,7 @@ type propTypes = {
     resetCanvas: Function,
     undo: Function,
     redo: Function,
+    exportImage: Function,
 }
 
 type submenuTypes = {
@@ -19,7 +20,7 @@ type menuTypes = {
 }
 
 // The top menu bar for the application
-function MenuFrame({resetCanvas, undo, redo}: propTypes) {
+function MenuFrame({resetCanvas, undo, redo, exportImage}: propTypes) {
 
     // Tracks the active submenu
     const [activeMenu, setActiveMenu] = useState('None');
@@ -42,6 +43,10 @@ function MenuFrame({resetCanvas, undo, redo}: propTypes) {
                     'itemName': 'Quit',
                     'click': () => window.electronAPI.closeWindow()
                 },
+                {
+                    'itemName': 'Export',
+                    'click': () => exportImage()
+                }
             ]
         },
         {
