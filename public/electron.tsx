@@ -2,18 +2,49 @@ const path = require('path');
 
 const { app, BrowserWindow, ipcMain } = require('electron');
 const isDev = require('electron-is-dev');
+let mainWindow;
+let exportWindow;
 
-function handleQuit (event, _) {
+// Closes a specific window on quit event
+function handleQuit (event, _){
     const webContents = event.sender
     const win = BrowserWindow.fromWebContents(webContents)
-    win.close()
+
+    if (win != null) {
+        win.close()
+    }
 }
 
-function createWindow() {
+// Opens the export window
+function handleExport (event, _){
+    if (exportWindow && !exportWindow.isDestroyed() && exportWindow.isFocusable()) {
+        exportWindow.close()
+    }
+
+    exportWindow = createWindow('exportWin', 400, 300)
+}
+
+// Closes the export window and tells the main window to export image
+function handleExportImage (mainWindow, data) {
+    mainWindow.webContents.send('exportImageReady', data)
+    exportWindow.close()
+}
+
+// Generates an URL with a page parameter
+function getURL (page = 'mainWin') {
+    return (
+        isDev
+        ? `http://localhost:3000?page=${page}`
+        : `file://${path.join(__dirname, `../build/index.html?page=${page}`)}`
+    )
+}
+
+// Creates a window with a specified height, width and page parameter
+function createWindow(page='mainWin', width=800, height=600) {
     // Create the browser window.
     const win = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: width,
+        height: height,
         webPreferences: {
             nodeIntegration: true,
             preload: path.join(__dirname, 'preload.js')
@@ -22,24 +53,26 @@ function createWindow() {
 
     // and load the index.html of the app.
     // win.loadFile("index.html");
-    win.loadURL(
-        isDev
-        ? 'http://localhost:3000'
-        : `file://${path.join(__dirname, '../build/index.html')}`
-    );
+    win.loadURL(getURL(page));
+
     // Open the DevTools.
     if (isDev) {
         win.webContents.openDevTools({ mode: 'detach' });
     }
     win.setMenu(null);
+
+    return win;
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+    mainWindow = createWindow();
+
     ipcMain.on('quit', handleQuit)
-    createWindow()
+    ipcMain.on('openExport', handleExport)
+    ipcMain.on('exportImage', (_, data) => handleExportImage(mainWindow, data))
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

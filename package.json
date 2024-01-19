@@ -2,7 +2,7 @@
   "name": "pixel-art-app",
   "version": "0.1.0",
   "private": true,
-  "main": "public/electron.js",
+  "main": "public/electron.tsx",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
@@ -19,6 +19,7 @@
     "react": "^18.2.0",
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.2",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
@@ -50,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "@types/electron": "^1.6.10",
     "@types/react-color": "^3.0.10",
     "concurrently": "^8.2.2",
     "electron": "^27.0.4",

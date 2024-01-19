@@ -8,13 +8,13 @@ type propTypes = {
     setColorHistory: Function,
 };
 
-function Canvas({ 
+const Canvas = ({ 
     dimensions, 
     pixels, 
     setPixel, 
     selectedColor,
     setColorHistory,
-}: propTypes) {
+}: propTypes) => {
 
     const rel: "relative" = "relative";
 

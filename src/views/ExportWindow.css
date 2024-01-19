@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&family=Rubik&family=Ubuntu&display=swap');
+/* font-family: 'Gabarito', sans-serif;
+font-family: 'Rubik', sans-serif;
+font-family: 'Ubuntu', sans-serif; */
+
+.export-window__container{
+    font-family: 'Rubik', sans-serif;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.export-button {
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 1px 10px;
+    width: auto;
+    margin-top: 40px;
+}
+
+.text-input__container {
+    display: flex;
+    flex-direction: column;
+}
+
+.text-input__input {
+    margin: 5px;
+    margin-bottom: 30px;
+}
+
+.file-options__button {
+    border: 1px solid black;
+    border-radius: 7px;
+    width: auto;
+    padding: 1px 5px 1px 5px;
+    margin: 10px;
+}
+
+.file-options__button.selected {
+    background-color: rgb(145, 170, 250);
+}
+
+.file-options__button-container {
+    display: flex;
+    flex-direction: row;
+}

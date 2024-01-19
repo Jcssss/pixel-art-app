@@ -1,14 +1,13 @@
 import {useState, useEffect} from 'react';
-import Canvas from './canvas/Canvas';
-import ColorPalette from './color-palette/ColorPalette';
+import Canvas from '../canvas/Canvas';
+import ColorPalette from '../color-palette/ColorPalette';
 import './App.css';
-import MenuFrame from './menu/MenuFrame';
-import Toolbar from './toolbar/Toolbar';
-import useHistory from './hooks/useHistory';
-import html2canvas from "html2canvas";
+import MenuFrame from '../menu/MenuFrame';
+import Toolbar from '../toolbar/Toolbar';
+import useHistory from '../hooks/useHistory';
 
 function App() {
-    const [pixels, pixelsHistory, setPixels, nextPixels, prevPixels] = useHistory([''], 10);
+    const [pixels,, setPixels, nextPixels, prevPixels] = useHistory([''], 10);
     const [selectedColor, setSelectedColor] = useState('#FFFFFF');
     const [colorHistory, setColorHistory] = useState<string[]>([]);
     const [dimensions, setDimensions] = useState({height: 5, width: 5});
@@ -35,32 +34,11 @@ function App() {
         setPixels(temp);
     } // resetPixels
 
-    const downloadImage = (url: string, fileName: string) => {
-        const fakeLink = window.document.createElement('a');
-        fakeLink.style.display = 'none';
-        fakeLink.download = fileName;
-        
-        fakeLink.href = url;
-        
-        document.body.appendChild(fakeLink);
-        fakeLink.click();
-        document.body.removeChild(fakeLink);
-        
-        fakeLink.remove();
-    };
-
     const menuFunctions = {
         resetCanvas: () => resetPixels(dimensions.height, dimensions.width),
         undo: () => prevPixels(),
         redo: () => nextPixels(),
-        exportImage: (imageFileName: string) => {
-            let element = document.getElementsByClassName('canvas')[0] as HTMLElement
-            html2canvas(element).then((canvas) => {
-                return canvas.toDataURL("image/png", 1.0);
-            }).then((image) => {
-                downloadImage(image, imageFileName);
-            })
-        }
+        exportImage: () => window.electronAPI.openExportWindow(),
     }
 
     // changes the selected color using the color picker
