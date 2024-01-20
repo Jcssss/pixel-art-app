@@ -1,22 +1,20 @@
 import { useState } from 'react';
 import './ExportWindow.css'
-import { JsxElement } from 'typescript';
 
-const ExportWindow = () => {
+function ExportWindow () {
     const [filename, setFilename] = useState('');
     const [filetype, setFiletype] = useState('png');
 
     const fileOptions = ['png', 'jpeg']
 
+    // Create the file type option buttons
     const getFileOptions = (): JSX.Element => {
         return (
             <div className='file-options__button-container'>
             {
                 fileOptions.map((typename: string): JSX.Element => {
-
                     let name = `file-options__button 
                         ${(typename == filetype)? 'selected' : ''}`
-                    
                     return (
                         <div 
                             className={name}
@@ -31,12 +29,12 @@ const ExportWindow = () => {
         )
     }
 
+    // Sends export message to renderer
     const exportImage = () => {
         let data = {
             filename: filename,
             filetype: filetype
         }
-        console.log(data)
         window.electronAPI.exportImage(data)
     }
 

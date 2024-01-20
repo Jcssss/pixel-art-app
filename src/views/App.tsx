@@ -5,6 +5,7 @@ import './App.css';
 import MenuFrame from '../menu/MenuFrame';
 import Toolbar from '../toolbar/Toolbar';
 import useHistory from '../hooks/useHistory';
+const {ipcRenderer, electronAPI} = window;
 
 function App() {
     const [pixels,, setPixels, nextPixels, prevPixels] = useHistory([''], 10);
@@ -15,7 +16,10 @@ function App() {
     const defaultColour: string = '#AAFFFF';
 
     useEffect(() => {
-        resetPixels(2, 2);
+        resetPixels(5,5)
+        ipcRenderer.on('resizeCanvasReady', (_: any, data: {width: number, height: number}) => {
+            resetPixels(data.width, data.height)
+        });
     }, []);
 
     // resets all pixels on the canvas to the default colour
@@ -35,10 +39,12 @@ function App() {
     } // resetPixels
 
     const menuFunctions = {
+        quit: () => electronAPI.closeWindow(),
         resetCanvas: () => resetPixels(dimensions.height, dimensions.width),
         undo: () => prevPixels(),
         redo: () => nextPixels(),
-        exportImage: () => window.electronAPI.openExportWindow(),
+        exportImage: () => electronAPI.openExportWindow(),
+        resizeCanvas: () => electronAPI.openResizeWindow(),
     }
 
     // changes the selected color using the color picker

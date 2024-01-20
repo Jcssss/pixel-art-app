@@ -2,8 +2,7 @@ const path = require('path');
 
 const { app, BrowserWindow, ipcMain } = require('electron');
 const isDev = require('electron-is-dev');
-let mainWindow;
-let exportWindow;
+let mainWindow, exportWindow, resizeWindow;
 
 // Closes a specific window on quit event
 function handleQuit (event, _){
@@ -16,7 +15,7 @@ function handleQuit (event, _){
 }
 
 // Opens the export window
-function handleExport (event, _){
+function openExport (event, _){
     if (exportWindow && !exportWindow.isDestroyed() && exportWindow.isFocusable()) {
         exportWindow.close()
     }
@@ -24,10 +23,25 @@ function handleExport (event, _){
     exportWindow = createWindow('exportWin', 400, 300)
 }
 
+// Opens the resize window
+function openResize (event, _){
+    if (resizeWindow && !resizeWindow.isDestroyed() && resizeWindow.isFocusable()) {
+        resizeWindow.close()
+    }
+
+    resizeWindow = createWindow('resizeWin', 400, 300)
+}
+
 // Closes the export window and tells the main window to export image
 function handleExportImage (mainWindow, data) {
     mainWindow.webContents.send('exportImageReady', data)
     exportWindow.close()
+}
+
+// Closes the export window and tells the main window to export image
+function handleResizeCanvas (mainWindow, data) {
+    mainWindow.webContents.send('resizeCanvasReady', data)
+    //resizeWindow.close()
 }
 
 // Generates an URL with a page parameter
@@ -46,8 +60,8 @@ function createWindow(page='mainWin', width=800, height=600) {
         width: width,
         height: height,
         webPreferences: {
-            nodeIntegration: true,
-            preload: path.join(__dirname, 'preload.js')
+            preload: path.join(__dirname, 'preload.js'),
+            sandbox: false
         },
     });
 
@@ -71,8 +85,10 @@ app.whenReady().then(() => {
     mainWindow = createWindow();
 
     ipcMain.on('quit', handleQuit)
-    ipcMain.on('openExport', handleExport)
+    ipcMain.on('openExport', openExport)
+    ipcMain.on('openResize', openResize)
     ipcMain.on('exportImage', (_, data) => handleExportImage(mainWindow, data))
+    ipcMain.on('resizeCanvas', (_, data) => handleResizeCanvas(mainWindow, data))
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

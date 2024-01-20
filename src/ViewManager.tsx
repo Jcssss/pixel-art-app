@@ -2,14 +2,16 @@ import React, { ReactElement } from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import App from './views/App';
 import ExportWindow from './views/ExportWindow';
+import ResizeWindow from './views/ResizeWindow';
 
 type viewTypes = {
     [key: string]: ReactElement;
 }
 
-const ViewManager = () => {
+function ViewManager () {
     let Views: viewTypes = {
         'exportWin': <ExportWindow/>,
+        'resizeWin': <ResizeWindow/>,
         'mainWin': <App/>
     }
 

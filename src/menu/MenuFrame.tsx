@@ -2,11 +2,13 @@ import React, {useState, useEffect} from 'react';
 import Submenu from './Submenu';
 import useCloseClick from '../hooks/useCloseClick';
 
-type propTypes = {
-    resetCanvas: Function,
-    undo: Function,
-    redo: Function,
-    exportImage: Function,
+type functionTypes = {
+    quit: () => Promise<void>,
+    resizeCanvas: () => Promise<void>,
+    exportImage: () => Promise<void>,
+    undo: () => void,
+    redo: () => void,
+    resetCanvas: () => void,
 }
 
 type submenuTypes = {
@@ -20,7 +22,9 @@ type menuTypes = {
 }
 
 // The top menu bar for the application
-function MenuFrame({resetCanvas, undo, redo, exportImage}: propTypes) {
+function MenuFrame({
+    quit, exportImage, resizeCanvas, undo, redo, resetCanvas
+}: functionTypes) {
 
     // Tracks the active submenu
     const [activeMenu, setActiveMenu] = useState('None');
@@ -41,7 +45,7 @@ function MenuFrame({resetCanvas, undo, redo, exportImage}: propTypes) {
             'menuItems': [
                 {
                     'itemName': 'Quit',
-                    'click': () => window.electronAPI.closeWindow()
+                    'click': () => quit()
                 },
                 {
                     'itemName': 'Export',
@@ -52,6 +56,10 @@ function MenuFrame({resetCanvas, undo, redo, exportImage}: propTypes) {
         {
             'menuName': 'Edit',
             'menuItems': [
+                {
+                    'itemName': 'Resize Canvas',
+                    'click': () => resizeCanvas()
+                },
                 {
                     'itemName': 'Clear Canvas',
                     'click': () => resetCanvas()
