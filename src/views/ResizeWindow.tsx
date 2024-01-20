@@ -1,38 +1,56 @@
 import {useState} from 'react';
+import './ResizeWindow.css';
 
 function ResizeWindow() {
-    const [width, setWidth] = useState(0);
-    const [height, setHeight] = useState(0);
+    const [width, setWidth] = useState('');
+    const [height, setHeight] = useState('');
+    const [error, setError] = useState('');
 
     const resize = () => {
-        let data = {
-            width: width,
-            height: height,
+        if (validateInput(height) && validateInput(width)) {
+            let data = {
+                width: parseInt(width, 10),
+                height: parseInt(height, 10),
+            }
+    
+            window.electronAPI.resizeCanvas(data)
+        } else {
+            setError('*One or more fields need to be filled.')
         }
+    }
 
-        window.electronAPI.resizeCanvas(data)
+    const validateInput = (input: string): boolean => {
+        return input !== ''
     }
 
     return (
-        <div>
-            <div> New Dimensions: </div>
-            <div>
+        <div className='resize__container'>
+            <div className='resize__label'> New Dimensions: </div>
+            <div className='resize__error'>{error}</div>
+            <div className='resize__input-container'>
                 <input 
+                    className='resize__input width'
                     type='number'
                     min='1'
                     step='1'
                     value={width}
-                    onChange={(e) => setWidth(parseInt(e.target.value, 10))}
+                    onChange={(e) => setWidth(e.target.value)}
                 ></input>
                 <input 
+                    className='resize__input height'
                     type='number'
                     min='1'
                     step='1'
                     value={height}
-                    onChange={(e) => setHeight(parseInt(e.target.value, 10))}
+                    onChange={(e) => setHeight(e.target.value)}
                 ></input>
             </div>
-            <div onClick={() => resize()}>Resize Window</div>
+            <div 
+                onClick={() => resize()}
+                className='resize__submit'
+            >
+                Resize Window
+            </div>
         </div>
     );
 }

@@ -14,9 +14,11 @@ function ExportWindow () {
             {
                 fileOptions.map((typename: string): JSX.Element => {
                     let name = `file-options__button 
-                        ${(typename == filetype)? 'selected' : ''}`
+                        ${(typename === filetype)? 'selected' : ''}`
+                    
                     return (
                         <div 
+                            key={typename}
                             className={name}
                             onClick={() => setFiletype(typename)}
                         >

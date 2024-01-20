@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400;700&family=Rubik&family=Ubuntu&display=swap');
+
+.resize__container {
+    font-family: 'Rubik', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.resize__error {
+    color: red;
+    font-size: 12px;
+}
+
+.resize__label {
+    padding: 10px;
+    padding-top: 30px;
+}
+
+.resize__input {
+    width: 50px;
+    overflow: auto;
+    margin: 10px;
+    padding: 5px;
+}
+
+.resize__submit {
+    margin: 20px;
+    border: 2px solid black;
+    padding: 3px 20px;
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+.resize__submit:hover{
+    background-color: rgb(190, 190, 190);
+    cursor: pointer;
+}

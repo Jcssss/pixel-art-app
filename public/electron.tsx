@@ -41,7 +41,7 @@ function handleExportImage (mainWindow, data) {
 // Closes the export window and tells the main window to export image
 function handleResizeCanvas (mainWindow, data) {
     mainWindow.webContents.send('resizeCanvasReady', data)
-    //resizeWindow.close()
+    resizeWindow.close()
 }
 
 // Generates an URL with a page parameter
@@ -70,9 +70,9 @@ function createWindow(page='mainWin', width=800, height=600) {
     win.loadURL(getURL(page));
 
     // Open the DevTools.
-    if (isDev) {
-        win.webContents.openDevTools({ mode: 'detach' });
-    }
+    // if (isDev) {
+    //     win.webContents.openDevTools({ mode: 'detach' });
+    // }
     win.setMenu(null);
 
     return win;
