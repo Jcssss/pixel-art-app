@@ -5,6 +5,7 @@ import './App.css';
 import MenuFrame from '../menu/MenuFrame';
 import Toolbar from '../toolbar/Toolbar';
 import useHistory from '../hooks/useHistory';
+import PixelHelpers from '../helpers/PixelHelpers';
 const {ipcRenderer, electronAPI} = window;
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
     const [selectedColor, setSelectedColor] = useState('#FFFFFF');
     const [colorHistory, setColorHistory] = useState<string[]>([]);
     const [dimensions, setDimensions] = useState({height: 5, width: 5});
-    const [activeTool, setActiveTool] = useState('None');
+    const [activeTool, setActiveTool] = useState('Brush');
     const defaultColour: string = '#AAFFFF';
 
     useEffect(() => {
@@ -47,6 +48,11 @@ function App() {
         resizeCanvas: () => electronAPI.openResizeWindow(),
     }
 
+    const toolFunctions: {[key: string]: Function} = {
+        Brush: (color: string, index: number) => colorPixel(color, index),
+        Fill: (color: string, index: number) => fillPixels(color, index)
+    }
+
     // changes the selected color using the color picker
     const changeSelectedColor = (colorHex: string): void => {
         setSelectedColor(colorHex);
@@ -64,6 +70,72 @@ function App() {
         setPixels(temp);
     } // colorPixel
 
+    const fillHelp = (colors: string[], startIndex: number): number[] => {
+
+        let indexesToChange: number[] = [];
+        indexesToChange.push(startIndex)
+
+        let indexes: number[] = [];
+        indexes.push(startIndex);
+
+        while(indexes.length > 0){
+            let currPix = indexes.pop();
+
+            if (!currPix && currPix != 0) {
+                return [];
+            }
+
+            if (currPix % dimensions.width !== 0
+                && colors[currPix] === colors[currPix - 1]
+                && !indexesToChange.includes(currPix - 1)) {
+                indexes.push(currPix - 1);
+                indexesToChange.push(currPix - 1);
+            }
+
+            if ((currPix + 1) % dimensions.width !== 0 
+                && colors[currPix] === colors[currPix + 1]
+                && !indexesToChange.includes(currPix + 1)) {
+                indexes.push(currPix + 1);
+                indexesToChange.push(currPix + 1);
+            }
+
+            if (currPix >= dimensions.width  
+                && colors[currPix] === colors[currPix - dimensions.width]
+                && !indexesToChange.includes(currPix - dimensions.width)) {
+                indexes.push(currPix - dimensions.width);
+                indexesToChange.push(currPix - dimensions.width);
+            }
+
+            if (currPix < colors.length - dimensions.width 
+                && colors[currPix] === colors[currPix + dimensions.width]
+                && !indexesToChange.includes(currPix + dimensions.width)) {
+                indexes.push(currPix + dimensions.width);
+                indexesToChange.push(currPix + dimensions.width);
+            }
+        }
+
+        return indexesToChange;
+    }
+
+    const fillPixels = (color: string, index: number): void => {
+        let indexes: number[] = [];
+        let colors: string[] = [];
+
+        pixels.forEach((pixel) => {
+            colors.push(pixel)
+        });
+
+        // find all of the indexes we need to update
+        indexes = fillHelp(colors, index)
+
+        // update the indexes to the current color
+        indexes.forEach((index: number): void => {
+            colors[index] = color;
+        })
+
+        setPixels(colors);
+    }
+
     return (
         <div className='App'>
             <div className='canvas-container'>
@@ -80,7 +152,7 @@ function App() {
                 <Canvas 
                     dimensions={dimensions}
                     pixels={pixels}
-                    setPixel={colorPixel}
+                    setPixel={toolFunctions[activeTool]}
                     selectedColor={selectedColor}
                     setColorHistory={setColorHistory}
                 />

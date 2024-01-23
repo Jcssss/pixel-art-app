@@ -70,9 +70,9 @@ function createWindow(page='mainWin', width=800, height=600) {
     win.loadURL(getURL(page));
 
     // Open the DevTools.
-    // if (isDev) {
-    //     win.webContents.openDevTools({ mode: 'detach' });
-    // }
+    if (isDev) {
+        win.webContents.openDevTools({ mode: 'detach' });
+    }
     win.setMenu(null);
 
     return win;

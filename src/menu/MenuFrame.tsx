@@ -40,7 +40,7 @@ function MenuFrame({
 
     // Stores the list of menu's and submenu's
     const menu = [
-        {
+        { 
             'menuName': 'File',
             'menuItems': [
                 {
