@@ -11,6 +11,8 @@
 .resize__error {
     color: red;
     font-size: 12px;
+    text-align: center;
+    width: 60%;
 }
 
 .resize__label {

@@ -6,6 +6,9 @@ function ResizeWindow() {
     const [height, setHeight] = useState('');
     const [error, setError] = useState('');
 
+    const max = 50;
+    const min = 1;
+
     const resize = () => {
         if (validateInput(height) && validateInput(width)) {
             let data = {
@@ -15,12 +18,20 @@ function ResizeWindow() {
     
             window.electronAPI.resizeCanvas(data)
         } else {
-            setError('*One or more fields need to be filled.')
+            if (height == '' || width == '') {
+                setError('*One or more fields need to be filled.');
+            }
+
+            setError('*Values should be between 1 and 50 (inclusive)');
         }
     }
 
+    const checkBounds = (input: string): boolean => {
+        return parseInt(input, 10) <= max && parseInt(input, 10) >= min
+    }
+
     const validateInput = (input: string): boolean => {
-        return input !== ''
+        return input !== '' && checkBounds(input);
     }
 
     return (
@@ -32,7 +43,6 @@ function ResizeWindow() {
                     className='resize__input width'
                     type='number'
                     min='1'
-                    step='1'
                     value={width}
                     onChange={(e) => setWidth(e.target.value)}
                 ></input>
@@ -40,7 +50,6 @@ function ResizeWindow() {
                     className='resize__input height'
                     type='number'
                     min='1'
-                    step='1'
                     value={height}
                     onChange={(e) => setHeight(e.target.value)}
                 ></input>

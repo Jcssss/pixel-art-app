@@ -19,7 +19,7 @@ function Canvas ({
     const rel: "relative" = "relative";
 
     const canvasStyle = {
-        aspectRatio: `${dimensions.height} / ${dimensions.width}`,
+        aspectRatio: `${dimensions.width} / ${dimensions.height}`,
         width: Math.min(dimensions.width * 50, 0.6 * window.innerWidth),
         position: rel,
         top: '0px',
