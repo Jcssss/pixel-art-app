@@ -18,7 +18,7 @@ function ResizeWindow() {
     
             window.electronAPI.resizeCanvas(data)
         } else {
-            if (height == '' || width == '') {
+            if (height === '' || width === '') {
                 setError('*One or more fields need to be filled.');
             }
 

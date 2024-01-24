@@ -16,13 +16,6 @@ function App() {
     const [activeTool, setActiveTool] = useState('Brush');
     const defaultColour: string = '#AAFFFF';
 
-    useEffect(() => {
-        resetPixels(5,5)
-        ipcRenderer.on('resizeCanvasReady', (_: any, data: {width: number, height: number}) => {
-            resetPixels(data.width, data.height)
-        });
-    }, []);
-
     // resets all pixels on the canvas to the default colour
     const resetPixels = (width: number, height: number): void => {
         let temp: string[] = [];
@@ -38,6 +31,15 @@ function App() {
 
         setPixels(temp);
     } // resetPixels
+
+    useEffect(() => {
+        resetPixels(5,5)
+        ipcRenderer.on('resizeCanvasReady', (_: any, data: {width: number, height: number}) => {
+            resetPixels(data.width, data.height)
+        }); 
+
+        // eslint-disable-next-line
+    }, []);
 
     const menuFunctions = {
         quit: () => electronAPI.closeWindow(),
@@ -81,37 +83,29 @@ function App() {
         while(indexes.length > 0){
             let currPix = indexes.pop();
 
-            if (!currPix && currPix != 0) {
+            if (!currPix && currPix !== 0) {
                 return [];
             }
 
-            if (currPix % dimensions.width !== 0
-                && colors[currPix] === colors[currPix - 1]
-                && !indexesToChange.includes(currPix - 1)) {
-                indexes.push(currPix - 1);
-                indexesToChange.push(currPix - 1);
-            }
+            let currColor = colors[currPix];
+            let nextPix: number[] = [];
+            nextPix.push(PixelHelpers.getLeft(dimensions.width, dimensions.height, currPix));
+            nextPix.push(PixelHelpers.getRight(dimensions.width, dimensions.height, currPix));
+            nextPix.push(PixelHelpers.getUp(dimensions.width, dimensions.height, currPix));
+            nextPix.push(PixelHelpers.getDown(dimensions.width, dimensions.height, currPix));
 
-            if ((currPix + 1) % dimensions.width !== 0 
-                && colors[currPix] === colors[currPix + 1]
-                && !indexesToChange.includes(currPix + 1)) {
-                indexes.push(currPix + 1);
-                indexesToChange.push(currPix + 1);
-            }
+            console.log(nextPix);
 
-            if (currPix >= dimensions.width  
-                && colors[currPix] === colors[currPix - dimensions.width]
-                && !indexesToChange.includes(currPix - dimensions.width)) {
-                indexes.push(currPix - dimensions.width);
-                indexesToChange.push(currPix - dimensions.width);
-            }
-
-            if (currPix < colors.length - dimensions.width 
-                && colors[currPix] === colors[currPix + dimensions.width]
-                && !indexesToChange.includes(currPix + dimensions.width)) {
-                indexes.push(currPix + dimensions.width);
-                indexesToChange.push(currPix + dimensions.width);
-            }
+            nextPix.forEach((pixelIndex) => {
+                if (pixelIndex !== -1
+                    && currColor === colors[pixelIndex]
+                    && !indexesToChange.includes(pixelIndex)) {
+                    
+                    console.log(pixelIndex);
+                    indexes.push(pixelIndex);
+                    indexesToChange.push(pixelIndex);
+                }
+            });
         }
 
         return indexesToChange;
@@ -127,6 +121,7 @@ function App() {
 
         // find all of the indexes we need to update
         indexes = fillHelp(colors, index)
+        console.log(indexes);
 
         // update the indexes to the current color
         indexes.forEach((index: number): void => {
