@@ -1,6 +1,7 @@
 import React, {useState, useEffect, MouseEvent} from 'react';
 import { ChromePicker } from 'react-color';
 import useCloseClick from '../hooks/useCloseClick';
+import Resizable from '../layout/Resizable';
 
 type propTypes = {
     selectedColor: string,
@@ -25,49 +26,10 @@ function ColorPalette({
         setPickerActive((pickerActive) => !pickerActive);
     } // togglePickerState
 
-    const [size, setSize] = useState({width: 30, height: 90});
-    const widthBounds = {min: 20, max: 100};
-    const heightBounds = {min: 170, max: 400}
-    const mouseDownHandler = (mouseDownEvent: React.MouseEvent<HTMLElement>) => {
-        const startSize = {
-            width: size.width,
-            height: size.height
-        }
-        const startPosition = {
-            x: mouseDownEvent.pageX,
-            y: mouseDownEvent.pageY,
-        }
-        const checkBounds = (val: number, bounds: {min: number, max: number}): number => {
-            if (val > bounds.max) {
-                return bounds.max
-            } else if (val < bounds.min) {
-                return bounds.min
-            } else {
-                return val
-            }
-        }
-        function onMouseMove(mouseMoveEvent: any) {
-            mouseMoveEvent.preventDefault();
-            let newWidth = startSize.width - startPosition.x + mouseMoveEvent.pageX
-            let newHeight = startSize.height - startPosition.y + mouseMoveEvent.pageY
-            setSize({
-                width: checkBounds(newWidth, widthBounds),
-                height: checkBounds(newHeight, heightBounds)
-            });
-        }
-        function onMouseUp() {
-            window.removeEventListener("mousemove", onMouseMove);
-            window.removeEventListener("mouseup", onMouseUp);
-        }
-        
-        window.addEventListener("mousemove", onMouseMove);
-        window.addEventListener("mouseup", onMouseUp);
-    }
-
     return (
+        <Resizable>
         <div className='palette__container'>
-            <div style={{height: '100%', width: '5px', position: 'absolute', right: '-5px', backgroundColor: 'black'}} onMouseDown={mouseDownHandler}></div>
-            <div style={{width: `${size.width}px`, height: `${size.height}px`}} className='palette__menu'>
+            <div style={{width: `30px`, height: `200px`}} className='palette__menu'>
                 <div className='palette__options'>&middot;&middot;&middot;</div>
                 <div 
                     className='palette__main-color palette__color'
@@ -93,6 +55,7 @@ function ColorPalette({
                 />
             </div>
         </div>
+        </Resizable>
     );
 }
 
