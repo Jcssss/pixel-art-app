@@ -27,9 +27,15 @@ function ColorPalette({
     } // togglePickerState
 
     return (
-        <Resizable className='palette__resizable'>
+        <Resizable 
+            className='palette__resizable'
+            directions='right'
+            changeHeight={false}
+            startWidth={30}
+            bounds={{width: {max: 60, min: 20}, height: {max: 0, min: 0}}}
+        >
         <div className='palette__container'>
-            <div style={{width: `30px`, height: `200px`}} className='palette__menu'>
+            <div className='palette__menu'>
                 <div className='palette__options'>&middot;&middot;&middot;</div>
                 <div 
                     className='palette__main-color palette__color'
@@ -43,17 +49,17 @@ function ColorPalette({
                     ></div>
                 })}
             </div>
-            <div 
-                className='palette__picker-container'
-                style={{display: (pickerActive)? 'block' :'none'}}
-            >
-                <ChromePicker
-                    className='palette__picker'
-                    color={selectedColor}
-                    onChange={(color: {hex: string}) => changeSelectedColor(color.hex)}
-                    disableAlpha={true}
-                />
-            </div>
+        </div>
+        <div 
+            className='palette__picker-container'
+            style={{display: (pickerActive)? 'block' :'none'}}
+        >
+            <ChromePicker
+                className='palette__picker'
+                color={selectedColor}
+                onChange={(color: {hex: string}) => changeSelectedColor(color.hex)}
+                disableAlpha={true}
+            />
         </div>
         </Resizable>
     );

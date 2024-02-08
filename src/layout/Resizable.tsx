@@ -6,6 +6,8 @@ type propTypes = {
     className: string,
     startHeight?: number,
     startWidth?: number,
+    changeHeight?: boolean,
+    changeWidth?: boolean,
     bounds?: {
         width: {min: number, max: number},
         height: {min: number, max: number}
@@ -16,8 +18,10 @@ type propTypes = {
 const Resizable = ({
     children, 
     className, 
-    startHeight = 400, 
-    startWidth = 400,
+    startHeight = 200, 
+    startWidth = 200,
+    changeHeight = true,
+    changeWidth = true,
     bounds = {
         width: {min: 50, max: 200},
         height: {min: 50, max: 200}
@@ -31,14 +35,17 @@ const Resizable = ({
         mouseDownEvent: React.MouseEvent<HTMLElement>, 
         dirVector: number[]
     ) => {
+
         const startSize = {
             width: size.width,
             height: size.height
         }
+
         const startPosition = {
             x: mouseDownEvent.pageX,
             y: mouseDownEvent.pageY,
         }
+
         const checkBounds = (
             val: number, 
             bounds: {min: number, max: number}
@@ -51,6 +58,7 @@ const Resizable = ({
                 return val
             }
         }
+
         function onMouseMove(mouseMoveEvent: any) {
             mouseMoveEvent.preventDefault();
             let deltaX = (startPosition.x - mouseMoveEvent.pageX) * dirVector[0]
@@ -62,6 +70,7 @@ const Resizable = ({
                 height: checkBounds(newHeight, heightBounds)
             });
         }
+
         function onMouseUp() {
             window.removeEventListener("mousemove", onMouseMove);
             window.removeEventListener("mouseup", onMouseUp); 
@@ -72,8 +81,8 @@ const Resizable = ({
     }
 
     const mainStyle = {
-        width: `${size.width}px`, 
-        height: `${size.height}px`,
+        width: (changeWidth)? `${size.width}px`: '100%', 
+        height: (changeHeight)? `${size.height}px`: '100%',
         backgroundColor: 'black',
     }
 
@@ -95,7 +104,7 @@ const Resizable = ({
                 ></div>
             }
 
-            return <React.Fragment></React.Fragment>
+            return <React.Fragment key={data.name}></React.Fragment>
         })
     }
 

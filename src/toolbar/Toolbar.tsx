@@ -1,4 +1,5 @@
 import React from 'react';
+import Resizable from '../layout/Resizable';
 
 import { 
     faPaintBrush, 
@@ -41,19 +42,27 @@ function Toolbar({setActiveTool, activeTool}: propTypes) {
     ]
 
     return (
-        <div className='toolbar__frame'>
-            {
-                tools.map((tool: {name: string, icon: IconDefinition}): JSX.Element => 
-                    <Tool
-                        key={tool.name}
-                        setActiveTool={setActiveTool}
-                        active={activeTool == tool.name}
-                        name={tool.name}
-                        icon={tool.icon}
-                    />
-                )
-            }
-        </div>
+        <Resizable  
+            className='toolbar__resizable'
+            directions='left'
+            changeHeight={false}
+            startWidth={30}
+            bounds={{width: {max: 60, min: 20}, height: {max: 0, min: 0}}}
+        >
+            <div className='toolbar__frame'>
+                {
+                    tools.map((tool: {name: string, icon: IconDefinition}): JSX.Element => 
+                        <Tool
+                            key={tool.name}
+                            setActiveTool={setActiveTool}
+                            active={activeTool == tool.name}
+                            name={tool.name}
+                            icon={tool.icon}
+                        />
+                    )
+                }
+            </div>
+        </Resizable>
     );
 }
 

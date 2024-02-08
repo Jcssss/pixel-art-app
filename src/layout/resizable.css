@@ -2,32 +2,48 @@
     position: relative;
     height: 100%;
     width: 100%;
-    background-color: lightblue;
 }
 
 .drag {
     position: absolute;
     height: 100%;
     width: 100%;
-    background-color: green;
+    background-color: rgb(109, 109, 109);;
+    z-index: 200;
 }
 
 .drag.right {
     width: 5px;
-    right: 0px;
+    right: -5px;
+}
+
+.drag.right:hover {
+    cursor: col-resize
 }
 
 .drag.left {
     width: 5px;
-    left: 0px;
+    left: -5px;
+}
+
+.drag.left:hover {
+    cursor: col-resize
 }
 
 .drag.up {
     height: 5px;
-    top: 0px;
+    top: -5px;
+}
+
+.drag.up:hover {
+    cursor: row-resize
 }
 
 .drag.down {
     height: 5px;
-    bottom: 0px;
+    bottom: -5px;
+}
+
+.drag.down:hover {
+    cursor: row-resize
 }
