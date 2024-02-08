@@ -1,13 +1,32 @@
-import React, {useState} from 'react';
+import React, {ReactElement, useState} from 'react';
+import './resizable.css';
 
 type propTypes = {
-    children: any
+    children: any,
+    className: string,
+    startHeight?: number,
+    startWidth?: number,
+    bounds?: {
+        width: {min: number, max: number},
+        height: {min: number, max: number}
+    },
+    directions?: string
 }
 
-const Resizable = (props: propTypes) => {
-    const [size, setSize] = useState({width: 400, height: 400});
-    const widthBounds = {min: 20, max: 500};
-    const heightBounds = {min: 170, max: 700}
+const Resizable = ({
+    children, 
+    className, 
+    startHeight = 400, 
+    startWidth = 400,
+    bounds = {
+        width: {min: 50, max: 200},
+        height: {min: 50, max: 200}
+    },
+    directions = 'right left up down'
+}: propTypes) => {
+    const [size, setSize] = useState({width: startWidth, height: startHeight});
+    const widthBounds = bounds.width;
+    const heightBounds = bounds.height;
     const mouseDownHandler = (
         mouseDownEvent: React.MouseEvent<HTMLElement>, 
         dirVector: number[]
@@ -45,7 +64,7 @@ const Resizable = (props: propTypes) => {
         }
         function onMouseUp() {
             window.removeEventListener("mousemove", onMouseMove);
-            window.removeEventListener("mouseup", onMouseUp);
+            window.removeEventListener("mouseup", onMouseUp); 
         }
         
         window.addEventListener("mousemove", onMouseMove);
@@ -55,64 +74,37 @@ const Resizable = (props: propTypes) => {
     const mainStyle = {
         width: `${size.width}px`, 
         height: `${size.height}px`,
-        backgroundColor: 'grey',
-        position: 'relative' as 'relative',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        backgroundColor: 'black',
     }
 
-    const dragStyle1 = {
-        height: '100%',
-        width: '5px',
-        position: 'absolute' as 'absolute',
-        right: '0px',
-        backgroundColor: 'black'
-    }
+    const dragData = [
+        {name: 'right', vector: [1, 0]},
+        {name: 'left', vector: [-1, 0]},
+        {name: 'up', vector: [0, -1]},
+        {name: 'down', vector: [0, 1]},
+    ]
 
-    const dragStyle2 = {
-        height: '100%',
-        width: '5px',
-        position: 'absolute' as 'absolute',
-        left: '0px',
-        backgroundColor: 'black'
-    }
+    const getSliders = ():ReactElement[]  => {
+        return dragData.map((data: {name: string, vector:number[]}):ReactElement => {
+            
+            if (directions.includes(data.name)) {
+                return <div 
+                    className={`drag ${data.name}`} 
+                    onMouseDown={(e) => mouseDownHandler(e, data.vector)}
+                    key={data.name}
+                ></div>
+            }
 
-    const dragStyle3 = {
-        height: '5px',
-        width: '100%',
-        position: 'absolute' as 'absolute',
-        bottom: '0px',
-        backgroundColor: 'black'
-    }
-
-    const dragStyle4 = {
-        height: '5px',
-        width: '100%',
-        position: 'absolute' as 'absolute',
-        top: '0px',
-        backgroundColor: 'black'
+            return <React.Fragment></React.Fragment>
+        })
     }
 
     return (
-        <div style={mainStyle}>
-            <div 
-                style={dragStyle1} 
-                onMouseDown={(e) => mouseDownHandler(e, [1, 0])}
-            ></div>
-            <div 
-                style={dragStyle2} 
-                onMouseDown={(e) => mouseDownHandler(e, [-1, 0])}
-            ></div>
-            <div 
-                style={dragStyle3} 
-                onMouseDown={(e) => mouseDownHandler(e, [0, 1])}
-            ></div>
-            <div 
-                style={dragStyle4} 
-                onMouseDown={(e) => mouseDownHandler(e, [0, -1])}
-            ></div>
-            {props.children}
+        <div style={mainStyle} className={className}> 
+            <div className='resizable__content-container'>
+                {getSliders()}
+                {children}
+            </div>
         </div>
     );
 }

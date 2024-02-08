@@ -1,5 +1,8 @@
 .App {
     width: 100%;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
 }
 
 ::-webkit-scrollbar {
@@ -23,12 +26,13 @@
 }
 
 .canvas-container {
+    width: 100vw;
     height: 100%;
-    width: 100%;
-    padding-top: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    flex: auto;
 }
 
 .canvas__pixel {
@@ -38,13 +42,21 @@
     outline-style: none;
 }
 
+.palette__resizable {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+}
+
 .palette__container {
     z-index: 100;
     position: absolute;
-    top: var(--menu-height);
+    top: 0px;
     left: 0px;
     display: flex;
     flex-direction: row;
+    height: 100%;
 }
 
 .palette__menu {
@@ -63,7 +75,7 @@
 }
 
 .menu__frame {
-    position: fixed;
+    position: relative;
     z-index: 200;
     top: 0px;
     width: 100%;
@@ -103,7 +115,7 @@
 
 .toolbar__frame {
     height: calc(100vh - var(--menu-height));
-    top: var(--menu-height);
+    top: 0;
     width: var(--toolbar-width);
     background-color: grey;
     display: flex;

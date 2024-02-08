@@ -1,0 +1,33 @@
+.resizable__content-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: lightblue;
+}
+
+.drag {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: green;
+}
+
+.drag.right {
+    width: 5px;
+    right: 0px;
+}
+
+.drag.left {
+    width: 5px;
+    left: 0px;
+}
+
+.drag.up {
+    height: 5px;
+    top: 0px;
+}
+
+.drag.down {
+    height: 5px;
+    bottom: 0px;
+}

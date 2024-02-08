@@ -6,7 +6,6 @@ import MenuFrame from '../menu/MenuFrame';
 import Toolbar from '../toolbar/Toolbar';
 import useHistory from '../hooks/useHistory';
 import PixelHelpers from '../helpers/PixelHelpers';
-import Resizable from '../layout/Resizable';
 
 const {ipcRenderer, electronAPI} = window;
 
@@ -135,11 +134,8 @@ function App() {
 
     return (
         <div className='App'>
+            <MenuFrame {...menuFunctions}/>
             <div className='canvas-container'>
-                {/* <Resizable>
-                    <div>Hello</div>
-                </Resizable> */}
-                <MenuFrame {...menuFunctions}/>
                 <Toolbar 
                     setActiveTool={setActiveTool}
                     activeTool={activeTool}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, MouseEvent} from 'react';
+import React, {useState} from 'react';
 import { ChromePicker } from 'react-color';
 import useCloseClick from '../hooks/useCloseClick';
 import Resizable from '../layout/Resizable';
@@ -27,7 +27,7 @@ function ColorPalette({
     } // togglePickerState
 
     return (
-        <Resizable>
+        <Resizable className='palette__resizable'>
         <div className='palette__container'>
             <div style={{width: `30px`, height: `200px`}} className='palette__menu'>
                 <div className='palette__options'>&middot;&middot;&middot;</div>
