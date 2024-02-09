@@ -1,5 +1,7 @@
-# About
+# Pixel Art App
 A pixel art app featuring colour palette presets, layers, and editing tools. Designed using React JS and Typescript and implemented using an Electron framework.
+
+# About
 
 As a student thoroughly interested in Game Development, I've often enjoyed creating small games in my free time. One of my greatest struggles has always been creating artwork for the games. It was my hope that by creating this app, I could save myself time creating artwork, allowing me to spend more energy on other areas of development.
 
